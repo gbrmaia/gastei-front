@@ -16,12 +16,13 @@ const theme = extendTheme({
     },
   },
   fonts: {
-    heading: 'Georgia, serif',
-    body: 'Arial, sans-serif',
+    heading: 'Inter, sans-serif',
+    body: 'Inter, sans-serif',
   },
   styles: {
     global: {
       body: {
+        fontFamily: 'Inter',
         bg: 'gray.50',
         color: 'gray.800',
       },

@@ -77,6 +77,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
+      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+        <Text fontSize="md" fontWeight="bold" display='flex' alignItems='center'>
+          Seu saldo
+        </Text>  
+      </ Flex>
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon}>
           {link.name}
@@ -149,7 +154,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
       <Text ml={5} fontSize="2xl" display='flex' alignItems='center'>
-        <SiCashapp style={{ marginRight: '8px' ,color: '#3E8914' }} />Suas despesas
+        <SiCashapp style={{ marginRight: '8px', color: '#3E8914' }} />Suas despesas
       </Text>
     </Flex>
   );

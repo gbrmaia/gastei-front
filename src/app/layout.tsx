@@ -2,14 +2,18 @@
 
 import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../styles/theme'; // Ajuste o caminho conforme necessário
-import '../styles/global.css'; // Importar estilos globais, se houver
+import theme from '../styles/theme'; 
+import '../styles/global.css'; 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt">
       <head>
-        <title>My App</title>
+        <title>Gastei 💰</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+         rel="stylesheet" />
+         <link href="https://fonts.googleapis.com/css2?family=Bona+Nova+SC:ital,wght@0,400;0,700;1,400&display=swap" 
+         rel="stylesheet"/>
       </head>
       <body>
         <ChakraProvider theme={theme}>

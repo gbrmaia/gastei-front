@@ -1,16 +1,14 @@
 "use client";
 
-import React, { ReactNode } from 'react';
-import { Grid, GridItem } from '@chakra-ui/react';
-import SimpleSidebar from '@components/sidebar/sidebarComponent'; // Ajuste o caminho conforme necessário
-import useMediaQuery from '../../hooks/useMediaQuery'; // Importar o hook customizado
+import React from 'react';
+import { Grid, GridItem, useMediaQuery } from '@chakra-ui/react';
+import SimpleSidebar from '@components/sidebar/sidebarComponent'; 
+// import useMediaQuery from '../../hooks/useMediaQuery'; 
 
-interface ModalMainProps {
-  children?: React.ReactNode;
-}
-
-export default function ModalMain({ children }: ModalMainProps) {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+export default function ModalMain() {
+  const isMobile = useMediaQuery("(max-width: 768px)",{
+    fallback: false,
+  });
 
   return (
     <Grid
@@ -27,7 +25,7 @@ export default function ModalMain({ children }: ModalMainProps) {
       gridTemplateColumns={isMobile ? '1fr' : '250px 1fr'}
       height='100vh'
       width='100vw'
-      gap='1'
+      gap='0'
       color='black'
       fontWeight='bold'
       overflow='hidden'
