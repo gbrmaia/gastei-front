@@ -93,16 +93,17 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       pos="fixed"
       h="full"
       {...rest}>
-      <Img
-        boxSize={{ base: '100px', md: '150px' }}
-        objectFit='contain'
-        src='/gastei.svg'
-        alt="Logo"
-        mx='auto'
-        my={4}
-      />
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      <Flex alignItems="center">
+        <Box marginLeft={10} marginBottom={-10}>
+          <Img
+            boxSize='150px'
+            src='/gastei.svg'
+            alt="Logo"
+          />
+        </Box>
+        <Box display={{ base: 'flex', md: 'none' }} marginLeft={150}>
+          <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        </Box>
       </Flex>
       <Flex h="20" alignItems="center" mx="8">
         <Text fontSize="md" fontWeight="bold" display='flex' alignItems='center'>
