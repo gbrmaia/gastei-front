@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   CloseButton,
@@ -13,7 +13,9 @@ import {
   useDisclosure,
   BoxProps,
   FlexProps,
-  IconButton
+  IconButton,
+  Spinner,
+  Img,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -24,6 +26,7 @@ import {
 import { SiCashapp } from "react-icons/si";
 import { IconType } from 'react-icons';
 import { ReactNode } from 'react';
+import axios from 'axios';
 
 interface LinkItemProps {
   name: string;
@@ -61,7 +64,26 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
+const userId = 123;
+
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const [saldo, setSaldo] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSaldo = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/balance/${userId}`);
+        setSaldo(response.data.amount);
+      } catch (error) {
+        console.error('Erro ao buscar saldo: ', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSaldo();
+  }, []);
+
   return (
     <Box
       bg={useColorModeValue('white', 'gray.900')}
@@ -71,22 +93,31 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       pos="fixed"
       h="full"
       {...rest}>
+      <Img
+        boxSize={{ base: '100px', md: '150px' }}
+        objectFit='contain'
+        src='/gastei.svg'
+        alt="Logo"
+        mx='auto'
+        my={4}
+      />
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontWeight="bold" display='flex' alignItems='center'>
-          Gastei<SiCashapp style={{ marginLeft: '8px', color: '#3E8914' }} />
-        </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex h="20" alignItems="center" mx="8">
         <Text fontSize="md" fontWeight="bold" display='flex' alignItems='center'>
-          Seu saldo
-        </Text>  
+          Seu saldo:
+        </Text>
+        {loading ? <Spinner size='xs' color='green.500' ml={2} /> :
+          <Text fontSize="md" fontWeight="bold" ml={2}>{`R$ ${saldo}`}</Text>}
       </ Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))}
+      {
+        LinkItems.map((link) => (
+          <NavItem key={link.name} icon={link.icon}>
+            {link.name}
+          </NavItem>
+        ))
+      }
     </Box>
   );
 }
