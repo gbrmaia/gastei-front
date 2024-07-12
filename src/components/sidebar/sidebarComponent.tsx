@@ -169,8 +169,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-        <FcMoneyTransfer style={{ marginLeft: 10,}} />{loading ? <Spinner size='xs' color='green.500' ml={2} /> :
-          <Text fontSize="md" fontWeight="bold" ml={2}>{`R$ ${saldo}`}</Text>}
+      <FcMoneyTransfer style={{ marginLeft: 10, }} />{loading ? <Spinner size='xs' color='green.500' ml={2} /> :
+        <Text fontSize="md" fontWeight="bold" ml={2}>{`R$ ${saldo}`}</Text>}
     </Flex>
   );
 }

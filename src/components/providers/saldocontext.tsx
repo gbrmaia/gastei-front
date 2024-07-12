@@ -1,25 +1,25 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
-// Defina a interface para o contexto
+//define a interface para o contexto do provider
 interface SaldoContextData {
   saldo: number | null;
   loading: boolean;
 }
 
-// Crie o contexto
+//cria o contexto do provider
 const SaldoContext = createContext<SaldoContextData | undefined>(undefined);
 
-// Crie um hook para usar o contexto
+// cria hook para usar o contexto
 export const useSaldo = () => {
-  const context = useContext(SaldoContext);
-  if (context === undefined) {
-    throw new Error('useSaldo must be used within a SaldoProvider');
+  const contexto = useContext(SaldoContext);
+  if (contexto === undefined) {
+    throw new Error('useSaldo só pode ser usado dentro de um SaldoProvider');
   }
-  return context;
+  return contexto;
 };
 
-// Crie o provedor do contexto
+// cria o provider saldoProvider
 export const SaldoProvider = ({ children }: { children: ReactNode }) => {
   const [saldo, setSaldo] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
