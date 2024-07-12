@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Box,
   CloseButton,
@@ -23,10 +22,10 @@ import {
   FiSettings,
   FiMenu
 } from 'react-icons/fi';
-import { SiCashapp } from "react-icons/si";
 import { IconType } from 'react-icons';
 import { ReactNode } from 'react';
-import axios from 'axios';
+import { FcMoneyTransfer } from 'react-icons/fc';
+import { useSaldo } from '../providers/saldocontext';
 
 interface LinkItemProps {
   name: string;
@@ -64,25 +63,8 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
-const userId = 123;
-
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-  const [saldo, setSaldo] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSaldo = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4000/balance/${userId}`);
-        setSaldo(response.data.amount);
-      } catch (error) {
-        console.error('Erro ao buscar saldo: ', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSaldo();
-  }, []);
+  const { saldo, loading } = useSaldo();
 
   return (
     <Box
@@ -168,6 +150,8 @@ interface MobileProps extends FlexProps {
 }
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const { saldo, loading } = useSaldo();
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -185,9 +169,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-      <Text ml={5} fontSize="2xl" display='flex' alignItems='center'>
-        <SiCashapp style={{ marginRight: '8px', color: '#3E8914' }} />Suas despesas
-      </Text>
+        <FcMoneyTransfer style={{ marginLeft: 10,}} />{loading ? <Spinner size='xs' color='green.500' ml={2} /> :
+          <Text fontSize="md" fontWeight="bold" ml={2}>{`R$ ${saldo}`}</Text>}
     </Flex>
   );
 }
