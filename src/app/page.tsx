@@ -1,100 +1,124 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ShoppingBag } from "lucide-react";
+import { ArrowRightIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 
-export default function Home() {
+import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
+
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex flex-col min-h-screen">
+      {/* Header */}
+      <header className="z-50 sticky top-0 w-full bg-white/95 border-b backdrop-blur-sm dark:bg-black/60 border-border/40">
+        <div className="container mx-auto h-14 flex items-center">
+          <Link
+            href="/"
+            className="flex items-center hover:opacity-85 transition-opacity duration-300"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <ShoppingBag className="w-6 h-6 mr-3" />
+            <span className="font-bold text-xl">Gastei</span>
+          </Link>
+          <nav className="ml-auto flex items-center gap-4">
+            <Link href="/features" className="hover:underline">
+              Recursos
+            </Link>
+            <Link href="/pricing" className="hover:underline">
+              Preços
+            </Link>
+            <Link href="/support" className="hover:underline">
+              Suporte
+            </Link>
+            <ModeToggle />
+          </nav>
         </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1">
+        <div className="container mx-auto py-16 px-4 text-center">
+          <h1 className="text-5xl font-bold mb-6">
+            Controle suas finanças com o Gastei
+          </h1>
+          <p className="text-xl mb-8">
+            O melhor aplicativo para gerenciar seus gastos e economizar mais.
+          </p>
+          <div className="flex justify-center space-x-4">
+            <Button variant="default" size="lg" asChild>
+              <Link href="/dashboard">
+                Comece Agora
+                <ArrowRightIcon className="ml-2" />
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/learn-more">Saiba Mais</Link>
+            </Button>
+          </div>
+          <img
+            src="/images/gastei-app-screenshot.png"
+            alt="Gastei App Screenshot"
+            className="mt-12 w-full max-w-4xl mx-auto rounded shadow-lg"
+          />
+        </div>
+
+        {/* Features Section */}
+        <section className="bg-gray-50 dark:bg-gray-900 py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6">Por que escolher o Gastei?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Interface Intuitiva</h3>
+                <p>
+                  Design simples e fácil de usar para que você possa focar no que importa.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Relatórios Detalhados</h3>
+                <p>
+                  Acompanhe seus gastos com gráficos e insights personalizados.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Segurança Garantida</h3>
+                <p>
+                  Seus dados são criptografados e protegidos com a mais alta segurança.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="py-16">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6">
+              Pronto para transformar sua vida financeira?
+            </h2>
+            <Button variant="default" size="lg" asChild>
+              <Link href="/signup">
+                Comece Agora
+                <ArrowRightIcon className="ml-2" />
+              </Link>
+            </Button>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="py-6 border-t border-border/40">
+        <div className="container mx-auto flex flex-col items-center justify-between md:flex-row">
+          <p className="text-sm text-muted-foreground">&copy; 2023 Gastei. Todos os direitos reservados.</p>
+          <nav className="flex space-x-4 mt-4 md:mt-0">
+            <Link href="/privacy" className="text-sm hover:underline">
+              Privacidade
+            </Link>
+            <Link href="/terms" className="text-sm hover:underline">
+              Termos de Uso
+            </Link>
+            <Link href="https://github.com/gbrmaia/gastei-front" target="_blank" rel="noopener noreferrer">
+              <GitHubLogoIcon className="h-5 w-5" />
+            </Link>
+          </nav>
+        </div>
       </footer>
     </div>
   );
