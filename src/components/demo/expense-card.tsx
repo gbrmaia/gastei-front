@@ -45,8 +45,8 @@ const CardOptions = memo(({ onEdit, onDelete }: { onEdit: () => void, onDelete: 
       <Tooltip>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" aria-label="Card options">
-              <Ellipsis className="h-4 w-4" />
+            <Button variant="ghost" size="icon" aria-label="Opções do card">
+              <Ellipsis className="h-6 w-6" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
@@ -54,16 +54,16 @@ const CardOptions = memo(({ onEdit, onDelete }: { onEdit: () => void, onDelete: 
       </Tooltip>
     </TooltipProvider>
     <DropdownMenuContent className="w-56" align="end">
-      <DropdownMenuLabel>Opções</DropdownMenuLabel>
+      <DropdownMenuLabel className="text-muted-foreground">Opções</DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem onClick={onEdit}>
-          <PencilRuler className="mr-2 h-4 w-4" /> Editar
+          <PencilRuler className="text-muted-foreground mr-2 h-4 w-4" /> Editar
         </DropdownMenuItem>
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem onSelect={(event) => event.preventDefault()}>
-              <Trash2 className="mr-2 h-4 w-4" /> Deletar
+              <Trash2 className="text-muted-foreground mr-2 h-4 w-4" /> Deletar
             </DropdownMenuItem>
           </AlertDialogTrigger>
           <AlertDialogContent>
