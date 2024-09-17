@@ -37,7 +37,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
+import { useToast } from "@/hooks/use-toast"
 
 const CardOptions = memo(({ onEdit, onDelete }: { onEdit: () => void, onDelete: () => void }) => (
   <DropdownMenu>
@@ -88,6 +88,7 @@ const CardOptions = memo(({ onEdit, onDelete }: { onEdit: () => void, onDelete: 
 CardOptions.displayName = 'CardOptions'
 
 export default function EditableCard() {
+  const { toast } = useToast()
   const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState("Card Title")
   const [description, setDescription] = useState("Card Description")
@@ -109,6 +110,10 @@ export default function EditableCard() {
   }, [tempState])
 
   const saveChanges = useCallback(() => {
+    toast({
+      title: "Card Salvo",
+      description: "As alterações foram salvas com sucesso."
+    })
     setIsEditing(false)
   }, [])
 
@@ -126,6 +131,10 @@ export default function EditableCard() {
 
   const deleteCard = useCallback(() => {
     console.log("Card deletado")
+    toast({
+      title: "Card Deletado",
+      description: "Essa ação não pode ser desfeita."
+    })
   }, [])
 
   return (
