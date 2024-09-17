@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import { useState } from "react";
+import { useState, useCallback, memo } from "react"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Ellipsis, PencilRuler, Trash2 } from "lucide-react";
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Ellipsis, PencilRuler, Trash2, X, Plus, Save, Terminal } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,148 +19,186 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
-import Link from "next/link";
+} from "@/components/ui/tooltip"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
+
+const CardOptions = memo(({ onEdit, onDelete }: { onEdit: () => void, onDelete: () => void }) => (
+  <DropdownMenu>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label="Card options">
+              <Ellipsis className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Opções</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+    <DropdownMenuContent className="w-56" align="end">
+      <DropdownMenuLabel>Opções</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuGroup>
+        <DropdownMenuItem onClick={onEdit}>
+          <PencilRuler className="mr-2 h-4 w-4" /> Editar
+        </DropdownMenuItem>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem onSelect={(event) => event.preventDefault()}>
+              <Trash2 className="mr-2 h-4 w-4" /> Deletar
+            </DropdownMenuItem>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Essa ação não pode ser desfeita, o card será permanentemente excluido.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction onClick={onDelete}>Deletar</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator className="mb-3" />
+    </DropdownMenuContent>
+  </DropdownMenu>
+))
+
+CardOptions.displayName = 'CardOptions'
 
 export default function EditableCard() {
-  // Estados para edição
-  const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState("Card Title");
-  const [description, setDescription] = useState("Card Description");
-  const [contentList, setContentList] = useState(["Card Content"]);
+  const [isEditing, setIsEditing] = useState(false)
+  const [title, setTitle] = useState("Card Title")
+  const [description, setDescription] = useState("Card Description")
+  const [contentList, setContentList] = useState(["Card Content"])
+  const [tempState, setTempState] = useState({ title, description, contentList })
 
-  // Função para alternar entre os modos de visualização e edição
-  const toggleEdit = () => setIsEditing(!isEditing);
+  const toggleEdit = useCallback(() => {
+    if (!isEditing) {
+      setTempState({ title, description, contentList })
+    }
+    setIsEditing(prev => !prev)
+  }, [isEditing, title, description, contentList])
 
-  // Função para salvar as edições
-  const saveChanges = () => {
-    setIsEditing(false);
-  };
+  const cancelEdit = useCallback(() => {
+    setTitle(tempState.title)
+    setDescription(tempState.description)
+    setContentList(tempState.contentList)
+    setIsEditing(false)
+  }, [tempState])
 
-  // Função para adicionar mais campos de conteúdo
-  const addContentField = () => {
-    setContentList([...contentList, ""]);
-  };
+  const saveChanges = useCallback(() => {
+    setIsEditing(false)
+  }, [])
 
-  // Função para atualizar o conteúdo individual
-  const updateContent = (index: number, value: string) => {
-    const updatedContentList = [...contentList];
-    updatedContentList[index] = value;
-    setContentList(updatedContentList);
-  };
+  const addContentField = useCallback(() => {
+    setContentList(prev => [...prev, ""])
+  }, [])
+
+  const updateContent = useCallback((index: number, value: string) => {
+    setContentList(prev => {
+      const newList = [...prev]
+      newList[index] = value
+      return newList
+    })
+  }, [])
+
+  const deleteCard = useCallback(() => {
+    console.log("Card deletado")
+  }, [])
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className={`w-full max-w-lg mx-auto transition-colors duration-600 ${isEditing ? 'border border-green-700/50' : ''}`}>
       <CardHeader className="flex flex-row justify-between items-center">
-        <div>
+        <div className="flex-1 mr-4">
           {isEditing ? (
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter title"
+              aria-label="Card title"
+            />
           ) : (
             <CardTitle>{title}</CardTitle>
           )}
         </div>
-        <div>
-          <DropdownMenu>
-            <TooltipProvider disableHoverableContent>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant={"ghost"} size={"icon"}>
-                      <Ellipsis />
-                    </Button>
-                  </DropdownMenuTrigger>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">Opções</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-xs leading-none text-muted-foreground">
-                    Opções
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  className="hover:cursor-pointer"
-                  onClick={() => {
-                    toggleEdit();
-                  }}
-                >
-                  <PencilRuler className="size-4 mr-3 text-muted-foreground" />{" "}
-                  Editar
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="hover:cursor-pointer"
-                  onClick={() => {
-                    toggleEdit();
-                  }}
-                >
-                  <Trash2 className="size-4 mr-3 text-muted-foreground" />{" "}
-                  Apagar
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="hover:cursor-pointer"
-                onClick={() => {}}
-              >
-                
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        {!isEditing && <CardOptions onEdit={toggleEdit} onDelete={deleteCard} />}
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-4">
         {isEditing ? (
           <Input
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter description"
+            aria-label="Card description"
           />
         ) : (
           <p>{description}</p>
         )}
 
         {isEditing ? (
-          <div>
+          <div className="space-y-2">
             {contentList.map((content, index) => (
               <Input
                 key={index}
                 value={content}
                 onChange={(e) => updateContent(index, e.target.value)}
-                className="my-2"
+                placeholder={`Content item ${index + 1}`}
+                aria-label={`Content item ${index + 1}`}
               />
             ))}
             <Button
               onClick={addContentField}
               variant="outline"
-              className="mt-2"
+              size="sm"
+              className="w-full"
             >
-              +
+              <Plus className="mr-2 h-4 w-4" /> Adicionar Despesa
             </Button>
           </div>
         ) : (
-          <div>
+          <ul className="list-disc pl-5 space-y-1">
             {contentList.map((content, index) => (
-              <p key={index}>{content}</p>
+              <li key={index}>{content}</li>
             ))}
-          </div>
+          </ul>
         )}
       </CardContent>
 
-      <CardFooter>
-        {isEditing ? <Button onClick={saveChanges}>Salvar</Button> : ""}
+      <CardFooter className="flex justify-end space-x-2">
+        {isEditing && (
+          <>
+            <Button onClick={cancelEdit} variant="outline">
+              <X className="mr-2 h-4 w-4" /> Cancelar
+            </Button>
+            <Button onClick={saveChanges}>
+              <Save className="mr-2 h-4 w-4" /> Salvar
+            </Button>
+          </>
+        )}
       </CardFooter>
     </Card>
-  );
+  )
 }
