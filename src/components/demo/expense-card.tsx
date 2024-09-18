@@ -38,6 +38,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
+import IconSelector from "./icon-selector"
 
 const CardOptions = memo(({ onEdit, onDelete }: { onEdit: () => void, onDelete: () => void }) => (
   <DropdownMenu>
@@ -111,7 +112,7 @@ export default function EditableCard() {
 
   const saveChanges = useCallback(() => {
     toast({
-      title: "Card Salvo",
+      title: "💾 Card Salvo",
       description: "As alterações foram salvas com sucesso."
     })
     setIsEditing(false)
@@ -132,7 +133,7 @@ export default function EditableCard() {
   const deleteCard = useCallback(() => {
     console.log("Card deletado")
     toast({
-      title: "Card Deletado",
+      title: "❌ Card Deletado",
       description: "Essa ação não pode ser desfeita."
     })
   }, [])
@@ -156,6 +157,7 @@ export default function EditableCard() {
       </CardHeader>
 
       <CardContent className="space-y-4">
+        <IconSelector />
         {isEditing ? (
           <Input
             value={description}
