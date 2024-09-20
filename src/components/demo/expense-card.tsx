@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Ellipsis, PencilRuler, Trash2, X, Plus, Save, Terminal } from "lucide-react"
+import { Ellipsis, PencilRuler, Trash2, X, Plus, Save } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -92,9 +92,9 @@ CardOptions.displayName = 'CardOptions'
 export default function EditableCard() {
   const { toast } = useToast()
   const [isEditing, setIsEditing] = useState(false)
-  const [title, setTitle] = useState("Card Title")
-  const [description, setDescription] = useState("Card Description")
-  const [contentList, setContentList] = useState(["Card Content"])
+  const [title, setTitle] = useState("Titulo")
+  const [description, setDescription] = useState("Descrição")
+  const [contentList, setContentList] = useState(["Conteudo"])
   const [tempState, setTempState] = useState({ title, description, contentList })
 
   const toggleEdit = useCallback(() => {
