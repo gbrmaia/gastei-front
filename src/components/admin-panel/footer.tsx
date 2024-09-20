@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <div className="z-20 w-full bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-4 md:mx-8 flex h-14 items-center justify-evenly">
-        <p className="text-sm text-muted-foreground">&copy; 2024 Gastei. Todos os direitos reservados.</p>
+        <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} Gastei. Todos os direitos reservados.</p>
         <nav className="flex space-x-4 mt-4 md:mt-0">
           <Link href="/privacy" className="text-sm hover:underline">
             Privacidade
