@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
 import IconSelector from "./icon-selector"
+import { iconsExpenseForSelectorList } from "@/lib/icons-list"
 
 const CardOptions = memo(({ onEdit, onDelete }: { onEdit: () => void, onDelete: () => void }) => (
   <DropdownMenu>
@@ -157,7 +158,7 @@ export default function EditableCard() {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <IconSelector />
+        <IconSelector iconGroups={iconsExpenseForSelectorList} />
         {isEditing ? (
           <Input
             value={description}
