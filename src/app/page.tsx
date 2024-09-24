@@ -28,8 +28,8 @@ export default function HomePage() {
           </div>
           <Image
             src="/gastei.png"
-            width={1000}
-            height={1000}
+            width={1920}
+            height={1080}
             alt="Gastei App Screenshot"
             className="mt-12 w-full max-w-4xl mx-auto rounded shadow-lg"
           />

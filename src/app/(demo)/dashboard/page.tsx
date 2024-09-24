@@ -4,8 +4,8 @@ import EditableCard from "@/components/demo/expense-card";
 export default function DashboardPage() {
   return (
     <ContentLayout title="Dashboard">
-      <div className="">
-        <EditableCard />
+      <div>
+        <EditableCard/>
       </div>
     </ContentLayout>
   );
